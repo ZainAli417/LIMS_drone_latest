@@ -1,0 +1,66 @@
+plugins {
+    id "com.android.application"
+    // START: FlutterFire Configuration
+    id 'com.google.gms.google-services' // Google services plugin for Firebase
+    // END: FlutterFire Configuration
+    id "kotlin-android" // Kotlin support
+    id "dev.flutter.flutter-gradle-plugin" // Flutter Gradle plugin
+}
+
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
+
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode', '1')
+def flutterVersionName = localProperties.getProperty('flutter.versionName', '1.0')
+
+android {
+    ndkVersion = "25.1.8937393"
+    namespace "com.example.project_drone"
+    compileSdkVersion 34 // Update to the latest stable SDK version
+    ndkVersion flutter.ndkVersion // Keep as is
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8' // Kotlin JVM target
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    defaultConfig {
+        applicationId "com.example.project_drone" // Your unique Application ID
+        minSdkVersion 23 // Minimum SDK version
+        targetSdkVersion 34 // Set to the latest stable SDK version
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+        multiDexEnabled true // Enable multidex
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.debug // Set up your release signing config here
+        }
+    }
+}
+
+flutter {
+    source '../..' // Path to the Flutter source code
+}
+
+dependencies {
+    implementation 'com.android.support:multidex:1.0.3' // Multidex support
+    implementation 'androidx.appcompat:appcompat:1.6.1' // Update to the latest stable version
+    implementation 'androidx.core:core-ktx:1.12.0' // Update to the latest stable version
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version" // Kotlin standard library
+    // Add any other necessary dependencies here
+}
